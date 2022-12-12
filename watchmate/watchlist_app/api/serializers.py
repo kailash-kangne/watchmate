@@ -1,11 +1,13 @@
 from rest_framework import serializers
-from watchlist_app.models import Review, WatchList, StreamPlatform
+from watchlist_app.models import (Review, WatchList, 
+                                  StreamPlatform)
 
 class ReviewSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Review
-        fields = "__all__"
+        #fields = "__all__"
+        exclude = ["watchlist"]
     
 class WatchListSerializer(serializers.ModelSerializer):
     #len_name = serializers.SerializerMethodField()
