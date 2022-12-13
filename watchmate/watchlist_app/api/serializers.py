@@ -24,7 +24,7 @@ class WatchListSerializer(serializers.ModelSerializer):
     #     return len(object.name)
     
 #class StreamPlatformSerializer(serializers.ModelSerializer):
-class StreamPlatformSerializer(serializers.HyperlinkedModelSerializer):
+class StreamPlatformSerializer(serializers.ModelSerializer):
     
     watchlist = WatchListSerializer(many=True,  read_only=True)
     # #works only with 'watchlist' name variable as mention in "Watchlist" model using related name
