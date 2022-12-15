@@ -13,7 +13,7 @@ class RegistrationSeializer(serializers.ModelSerializer):
         }
         
     def save(self):
-        print("----------------")
+        print("---------------- save function")
         username = self.validated_data['username']
         email = self.validated_data['email']
         password = self.validated_data['password']
