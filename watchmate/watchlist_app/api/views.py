@@ -56,10 +56,13 @@ class ReviewList(generics.ListAPIView):
         return Review.objects.filter(watchlist=pk)
     
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
+    print("-----------")
+    
     queryset = Review.objects.all()
+    for i in queryset:
+        print
     serializer_class = ReviewSerializer
     permission_classes =[ReviewUserOrReadOnly]
-    
 # class ReviewDetail(mixins.RetrieveModelMixin, generics.GenericAPIView ):
     
 #     queryset = Review.objects.all()

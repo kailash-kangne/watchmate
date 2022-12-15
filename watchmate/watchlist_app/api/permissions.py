@@ -15,7 +15,7 @@ class AdminOrReadOnly(permissions.IsAdminUser):
 class ReviewUserOrReadOnly(permissions.BasePermission):
     
     def has_object_permission(self, request, view, obj):
-        
+        print("---",obj.review_user)
         if request.method in permissions.SAFE_METHODS:
             # GET --- Check permissions for read-only request
             return True
