@@ -7,7 +7,7 @@ from rest_framework import status
 #from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 
-from watchlist_app.api.permissions import AdminOrReadOnly, ReviewUserOrReadOnly
+from watchlist_app.api.permissions import IsAdminOrReadOnly, IsReviewUserOrReadOnly
 
 from watchlist_app.models import (WatchList, 
                                   StreamPlatform, Review)
@@ -61,7 +61,7 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     
     serializer_class = ReviewSerializer
-    permission_classes =[ReviewUserOrReadOnly]
+    permission_classes =[IsReviewUserOrReadOnly]
 # class ReviewDetail(mixins.RetrieveModelMixin, generics.GenericAPIView ):
     
 #     queryset = Review.objects.all()
@@ -85,7 +85,7 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
 class StreamPlatformVS(viewsets.ModelViewSet):
      queryset = StreamPlatform.objects.all()
      serializer_class = StreamPlatformSerializer
-
+     permission_classes=[IsAdminOrReadOnly]
 # class StreamPlatformVS(viewsets.ViewSet):
     
 #     def list(self, request):
@@ -124,6 +124,9 @@ class StreamPlatformAV(APIView):
             return Response(serializer.errors)
         
 class StreamPlatformDetailAV(APIView):
+    
+    permission_classes=[IsAdminOrReadOnly]
+    
     def get(self, request, pk): 
         try:
             platform = StreamPlatform.objects.get(pk=pk)
@@ -165,6 +168,8 @@ class WatchListAV(APIView):
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 class WatchDetailsAV(APIView):
+    
+    permission_classes = [IsAdminOrReadOnly]
     
     def get(self, request, pk): 
         try:
