@@ -25,6 +25,10 @@ from watchlist_app.api.throttling import ReviewCreateThrottle, ReviewListThrottl
 
 from django_filters.rest_framework import DjangoFilterBackend
 
+from rest_framework import filters
+
+from .pagination import WatchListPagination
+
 class UserReview(generics.ListAPIView):
     serializer_class = ReviewSerializer
     #throttle_classes = []
@@ -71,7 +75,7 @@ class ReviewCreate(generics.CreateAPIView):
 class ReviewList(generics.ListAPIView):
     #queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes =[IsAuthenticated]
+    #permission_classes =[IsAuthenticated]
     throttle_classes = [UserRateThrottle, AnonRateThrottle]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['review_user__username', 'active']    
@@ -177,12 +181,28 @@ class StreamPlatformDetailAV(APIView):
         platform.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class WatchListGV(generics.ListAPIView):
+    queryset = WatchList.objects.all()
+    serializer_class = WatchListSerializer
+    pagination_class = WatchListPagination
+    #permission_classes =[IsAuthenticated]
+    #throttle_classes = [UserRateThrottle, AnonRateThrottle]
+    
+    #filter_backends = [DjangoFilterBackend]
+    #filterset_fields = ['title', 'platform__name']
+    
+    # filter_backends = [filters.SearchFilter]
+    # search_fields = ['^title', 'platform__name']
+    
+    filter_backends = [filters.OrderingFilter]
+    search_fields =['avg_rating']
+
 class WatchListAV(APIView):
 
     def get(self, request, *args, **kwargs):
         
-        platform=WatchList.objects.all()
-        serializer = WatchListSerializer(platform, many=True)
+        movie=WatchList.objects.all()
+        serializer = WatchListSerializer(movie, many=True)
         return Response(serializer.data)
     
     def post(self, request, *args, **kwargs):
