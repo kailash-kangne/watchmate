@@ -19,19 +19,20 @@ def registration_view(request):
     
     if request.method == 'POST':
         
-        print('--------- request.data: %s' % request.data)
+        #print('--------- request.data: %s' % request.data)
         serializer = RegistrationSeializer(data=request.data)
         
         data={}
         
         if serializer.is_valid():
+            
             account = serializer.save()
-            print('---- account serializer: %s' % account)
+            #print('---- account serializer: %s' % account)
             data['response']="Registration successful"
             data['username']  = account.username
             data['email'] = account.email
             token = Token.objects.get(user= account).key
-            print("---------------- token : ",Token.objects.get(user= account))
+            #print("---------------- token : ",Token.objects.get(user= account))
             data['token'] = token
             # refresh = RefreshToken.for_user(account)
             # data['token']={
@@ -42,4 +43,4 @@ def registration_view(request):
         else:
             data = serializer.errors
             
-        return Response(data)
+        return Response(data, status= status.HTTP_201_CREATED )

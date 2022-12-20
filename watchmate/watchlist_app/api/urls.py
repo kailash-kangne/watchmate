@@ -17,8 +17,8 @@ router = DefaultRouter()
 router.register('stream',StreamPlatformVS, basename='streamplatform')
 
 urlpatterns = [
-    path("list/", WatchListAV.as_view(), name='watch-list'),
-    path("<int:pk>", WatchDetailsAV.as_view(), name='watch-details'),
+    path("list/", WatchListAV.as_view(), name='movie-list'),
+    path("<int:pk>", WatchDetailsAV.as_view(), name='movie-details'),
     path("list2/", WatchListGV.as_view(), name='watch-list'),
     
     path('',include(router.urls)),

@@ -27,7 +27,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework import filters
 
-from .pagination import WatchListPagination
+from .pagination import (WatchListPagination, WatchListLOPagination,
+                         WatchListCPagination)
 
 class UserReview(generics.ListAPIView):
     serializer_class = ReviewSerializer
@@ -184,7 +185,9 @@ class StreamPlatformDetailAV(APIView):
 class WatchListGV(generics.ListAPIView):
     queryset = WatchList.objects.all()
     serializer_class = WatchListSerializer
-    pagination_class = WatchListPagination
+    #pagination_class = WatchListPagination
+    #pagination_class = WatchListLOPagination
+    pagination_class = WatchListCPagination
     #permission_classes =[IsAuthenticated]
     #throttle_classes = [UserRateThrottle, AnonRateThrottle]
     
@@ -194,8 +197,8 @@ class WatchListGV(generics.ListAPIView):
     # filter_backends = [filters.SearchFilter]
     # search_fields = ['^title', 'platform__name']
     
-    filter_backends = [filters.OrderingFilter]
-    search_fields =['avg_rating']
+    # filter_backends = [filters.OrderingFilter]
+    # search_fields =['avg_rating']
 
 class WatchListAV(APIView):
 
@@ -206,7 +209,7 @@ class WatchListAV(APIView):
         return Response(serializer.data)
     
     def post(self, request, *args, **kwargs):
-        
+        print(request.POST)
         serializer = WatchListSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

@@ -15,7 +15,7 @@ class WatchListSerializer(serializers.ModelSerializer):
     #len_name = serializers.SerializerMethodField()
     
     #reviews = ReviewSerializer(many=True, read_only=True)
-    platform = serializers.CharField(source='platform.name')
+    platform = serializers.CharField(source='platform.name',read_only=True)
     
     class Meta:
         model = WatchList
@@ -25,6 +25,8 @@ class WatchListSerializer(serializers.ModelSerializer):
         
     # def get_len_name(self,object):
     #     return len(object.name)
+    
+    
     
 #class StreamPlatformSerializer(serializers.ModelSerializer):
 class StreamPlatformSerializer(serializers.ModelSerializer):
